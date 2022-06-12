@@ -68,6 +68,10 @@ Route::get("races/add-race",[RaceController::class,'ViewRace'])->middleware('aut
 Route::post("races/add-race",[RaceController::class,'AddRaceData'])->middleware('usercheck');
 
 Route::get("races/view-races",[RaceController::class,'ViewRaces'])->middleware('auth');
+
+  
+
+
 Route::get("edit-race/{id}",[RaceController::class,'editRace'])->middleware('usercheck');
 Route::post("edit-race/{id}",[RaceController::class,'updateRace'])->middleware('usercheck');
 Route::get("races/race-details/{id}",[RaceController::class,'raceDetail'])->middleware('auth');

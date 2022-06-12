@@ -4,6 +4,7 @@ use App\Models\Tblrace;
 use App\Models\tbl_users_race;
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 class RaceController extends Controller
 {
     function ViewRace(Request $req){
@@ -14,10 +15,18 @@ class RaceController extends Controller
     } 
 
     function ViewRaces(Request $req){
-        $TblRace            = new TblRace;
-        $tbl_users_race     = new tbl_users_race;
-        $tbl_users_race    = $tbl_users_race->get();  
-        $tblraces = $TblRace->get(); 
+       
+
+        if(Auth::user()->user_type != 'Administrator' && !Auth::user()->user_type != 'Coach'){
+            $user = Auth::user(); 
+            $tblraces = $user->races;
+        }else{
+            $TblRace            = new TblRace;
+            $tbl_users_race     = new tbl_users_race;
+            $tbl_users_race    = $tbl_users_race->get();  
+            $tblraces = $TblRace->get(); 
+        }
+
         return  view('view-races',['rows'=>$tblraces]); 
     }
     
@@ -30,7 +39,7 @@ class RaceController extends Controller
      //
      public function AddRaceData(Request $req){ 
         $TblRace = new TblRace;  
-        dd($req->all());
+        //dd($req->all());
         $TblRace->title=$req->title; 
         $TblRace->length=$req->length; 
         $TblRace->start_date=$req->start_date;
@@ -40,9 +49,7 @@ class RaceController extends Controller
         $TblRace->status =  1;
         $TblRace->save();  
         $race_id = $TblRace->id; 
-
         //$swimmer_ids = $req->swimmer_ids;
-
         //dd($TblRace->id);
         $swimmer_ids = $req->swimmer_ids;  
         foreach($swimmer_ids as $swimmer_id){
@@ -97,14 +104,11 @@ class RaceController extends Controller
         return redirect("races/view-races/")->with('message', 'Race Deleted Successfuly');
     }
     
-    function getSwimmersOfThisRace($race_id)
-    {
+    function getSwimmersOfThisRace($race_id){
         $race = Tblrace::find($race_id);
 
         $swimmers = $racep->users()->pluck('id')->toArray();
-        dd($swimmers);
-
-
+        //dd($swimmers);
         $User = DB::table('tbl_users_races')
         ->where('tblrace_id', '=', $race_id) 
         ->get();

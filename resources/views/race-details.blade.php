@@ -32,7 +32,7 @@
                         <!-- form start -->
                         <form>
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
+                                <table id="dataTabe" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>id</th>
@@ -52,10 +52,12 @@
                                             <td>{{  showTimeSpent($RaceData->id, $swimmer->id)['timespent'];    }}</td>
                                             <td>{{  showTimeSpent($RaceData->id, $swimmer->id)['position'];    }}</td> 
                                             <td class="text-center">
+                                            @if(Auth::user()->user_type == 'Administrator')
                                                 <a onClick="return showModal({{ $swimmer->id}} , {{ showTimeSpent($RaceData->id, $swimmer->id)['timespent'] }}  , {{ showTimeSpent($RaceData->id, $swimmer->id)['position']}}, '{{ showName('users', $swimmer->id) }}')" data-id='{{ $swimmer }}' title="Race Detail"
                                                     type="button" class="btn btn-default btn-sm">
                                                     Add Result <i class="fa-solid fa-square-poll-horizontal"></i>
                                                 </a>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
@@ -114,17 +116,12 @@
 
 
 <script>
-$('#example1').dataTable();
+$('#table').dataTable();
   $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-
- 
- 
-
-    
 function showModal(user_id, time_spent, position, title){
   var url = $(location).attr('href'),
       parts = url.split("/"),
@@ -157,6 +154,7 @@ $('#submitBtn').click(function(){
             $('#modal-default').modal('hide'); 
             $('#resultForm').trigger("reset"); 
             showToast('Result Added Successfully'); 
+            location.reload();
         },
         error: function (data) {
             console.log('Error:', data);

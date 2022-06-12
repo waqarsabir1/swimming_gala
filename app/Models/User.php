@@ -52,6 +52,6 @@ class User extends Authenticatable
     ];
 
    public function races(){
-    return $this->belongsToMany('tblraces'); 
+    return $this->belongsToMany(Tblrace::class,'tbl_users_races'); 
    }
 }

@@ -12,8 +12,9 @@ class ResultController extends Controller
     public function ajaxRequestStore(Request $request)
     { 
         $race = Tblrace::find($request->race_id); 
-        $race->results()->create([
+        $race->results()->updateOrCreate([
             'user_id'       =>$request->user_id,
+        ],[
             'time_spent'    =>$request->timespent,
             'position'      =>$request->position, 
         ]); 

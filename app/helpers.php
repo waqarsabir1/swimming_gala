@@ -82,8 +82,10 @@ function showTimeSpent($race_id, $user_id)
     ->where('tblrace_id',  $race_id) 
     ->where('user_id',  $user_id) 
     ->first(); 
+    $time= $result ? $result->time_spent : '0';
+    $position = $result ? $result->position : '0';
     //dd($$result->time_spent;);
-    $array = ['timespent'=>$result->time_spent, 'position'=>$result->position]; 
+     $array =['timespent'=>$time, 'position'=>$position];
     return $array;
 }
 

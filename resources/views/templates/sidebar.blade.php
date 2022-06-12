@@ -86,6 +86,7 @@
             </p>
           </a>
         </li>
+        @if(Auth::user()->user_type == 'Administrator')
         <li class="nav-item {{ request()->is('users/*') ? 'menu-open' : '' }} ?>">
           <a href="#" class="nav-link  {{ request()->is('users/*') ? 'active' : '' }} ">
           <i class="nav-icon  fa-solid fa-person"></i>
@@ -96,23 +97,24 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+         
             <li class="nav-item">
               <a href="{{url('/')}}/users/view-users" class="nav-link {{ request()->is('users/view-users') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>View Users</p>
               </a>
             </li>
-            @if(Auth::user()->user_type == 'Administrator')
+            
             <li class="nav-item">
               <a href="{{url('/')}}/users/add-user" class="nav-link {{ request()->is('users/add-user') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Add User</p>
               </a>
             </li>
-            @endif
+           
           </ul>
         </li>
-        
+       
         <li class="nav-item {{ request()->is('swimmers/*') ? 'menu-open' : '' }}">
           <a href="#" class="nav-link {{ request()->is('view-swimmers') ? 'active' : '' }}">
           <i class="nav-icon  fa-solid fa-person-swimming"></i>
@@ -132,6 +134,7 @@
             
           </ul>
         </li>
+        
         <li class="nav-item {{ request()->is('parents/*') ? 'menu-open' : '' }}">
           <a href="#" class="nav-link">
              <i class="nav-icon  fa-solid fa-user-gear"></i>
@@ -151,6 +154,7 @@
             </li> 
           </ul>
         </li>
+        
         <li class="nav-item {{ (request()->is('coaches/*')) ? 'menu-open' : '' }}">
           <a href="#" class="nav-link">
           <i class="nav-icon fa-solid fa-user-tie"></i>
@@ -170,7 +174,7 @@
              
           </ul>
         </li>
-        
+        @endif
         <li class="nav-item {{ request()->is('races/*') ? 'menu-open' : '' }}">
           <a href="#" class="nav-link">
           <i class="nav-icon fa-solid fa-medal"></i>
